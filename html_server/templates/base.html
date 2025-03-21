@@ -1,0 +1,24 @@
+{{define "base"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{block "title" .}}My Go App{{end}}</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+</head>
+<body>
+  {{template "header" .}}
+
+  <div class="columns is-gapless" style="height: 100vh;">
+    <aside class="column is-2 has-background-light">
+      {{template "sidebar" .}}
+    </aside>
+
+    <main class="column is-10 p-5">
+      {{block "content" .}}{{end}}
+    </main>
+  </div>
+</body>
+</html>
+{{end}}

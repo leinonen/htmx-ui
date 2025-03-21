@@ -1,0 +1,16 @@
+{{define "results.html"}}
+<div class="box">
+  {{range .}}
+    <div class="media">
+      <div class="media-content">
+        <p class="title is-5">
+          <a href="/person/{{.ID}}">{{.Name}}</a>
+        </p>
+      </div>
+    </div>
+    <hr>
+  {{else}}
+    <p>No results found.</p>
+  {{end}}
+</div>
+{{end}}

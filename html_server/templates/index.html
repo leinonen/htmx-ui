@@ -1,0 +1,29 @@
+{{define "title"}}Search Page{{end}}
+
+{{define "content"}}
+<section class="section">
+  <div class="container">
+    <h1 class="title">Search People</h1>
+
+    <div class="field">
+      <div class="control">
+        <input 
+          class="input"
+          type="text"
+          name="q"
+          placeholder="Type a name..."
+          hx-get="/search"
+          hx-trigger="keyup changed delay:300ms"
+          hx-target="#results"
+          hx-swap="innerHTML"
+          autocomplete="off"
+        />
+      </div>
+    </div>
+
+    <div id="results">
+      {{template "results.html" .}}
+    </div>
+  </div>
+</section>
+{{end}}

@@ -1,0 +1,24 @@
+services:
+  api:
+    build:
+      context: ./api_server
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+
+  html:
+    build:
+      context: ./html_server
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - api
+    environment:
+      - API_URL=http://api:8081
+  tests:
+    build: ./tests
+    depends_on:
+      - html
+    environment:
+      - E2E_BASE_URL=http://html:8080
