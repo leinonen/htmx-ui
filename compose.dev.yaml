@@ -1,0 +1,26 @@
+services:
+  api:
+    build:
+      context: ./api_server
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./api_server:/go/src/app
+    command: >
+      sh -c "reflex -r '\.go$' -s -- sh -c 'go run main.go'"
+
+  html:
+    build:
+      context: ./html_server
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8080:8080"
+    depends_on:
+      - api
+    volumes:
+      - ./html_server:/go/src/app
+    command: >
+      sh -c "reflex -r '\.go$' -r 'templates/.*' -s -- sh -c 'go run main.go'"
+    environment:
+      - API_URL=http://api:8081

@@ -16,6 +16,7 @@ services:
       - api
     environment:
       - API_URL=http://api:8081
+
   tests:
     build: ./tests
     depends_on:
