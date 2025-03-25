@@ -8,4 +8,7 @@ build:
 	docker compose build
 
 dev:
-	docker compose -f compose.dev.yaml up --build api html
+	docker compose -f compose.dev.yaml up --build
+
+dev-down:
+	docker compose -f compose.dev.yaml down
