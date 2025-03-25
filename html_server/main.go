@@ -16,6 +16,10 @@ func main() {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 
+	// Serve static files from /static
+	fs := http.FileServer(http.Dir("./static"))
+	r.Handle("/static/*", http.StripPrefix("/static/", fs))
+
 	r.Get("/", indexHandler)
 	r.Get("/search", searchHandler)
 	r.Get("/person/{id}", detailHandler)
