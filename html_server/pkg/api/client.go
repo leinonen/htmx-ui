@@ -5,7 +5,6 @@ import (
 	"errors"
 	"net/http"
 	"os"
-	"strings"
 )
 
 type Person struct {
@@ -32,10 +31,9 @@ func SearchPerson(search string) []Person {
 	return items
 }
 
-func GetPerson(r *http.Request) (*Person, error) {
+func GetPersonByID(id string) (*Person, error) {
 	apiUrl := getApiUrl()
-	idStr := strings.TrimPrefix(r.URL.Path, "/person/")
-	resp, err := http.Get(apiUrl + "/data/" + idStr)
+	resp, err := http.Get(apiUrl + "/data/" + id)
 	if err != nil || resp.StatusCode != 200 {
 		return nil, ErrNotFound
 	}

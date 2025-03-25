@@ -6,6 +6,9 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 )
 
 type Person struct {
@@ -30,11 +33,14 @@ var people = []Person{
 }
 
 func main() {
-	http.HandleFunc("/data", handleList)
-	http.HandleFunc("/data/", handleDetail)
+	r := chi.NewRouter()
+	r.Use(middleware.Logger)
+
+	r.Get("/data", handleList)
+	r.Get("/data/{id}", handleDetail)
 
 	log.Println("API server running at http://localhost:8081")
-	log.Fatal(http.ListenAndServe(":8081", nil))
+	log.Fatal(http.ListenAndServe(":8081", r))
 }
 
 func handleList(w http.ResponseWriter, r *http.Request) {
@@ -51,7 +57,7 @@ func handleList(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleDetail(w http.ResponseWriter, r *http.Request) {
-	idStr := strings.TrimPrefix(r.URL.Path, "/data/")
+	idStr := chi.URLParam(r, "id")
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
 		http.Error(w, "Invalid ID", http.StatusBadRequest)
